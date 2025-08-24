@@ -5,8 +5,9 @@ const pool = require('../config/db');
 exports.createUser = async (payload) => {
   const sql = `
     INSERT INTO usuarios
-    (nombre, profesion, correo, celular, dpi_numero, contrasena, rol, estado_solicitud, dpi_archivo, diploma_archivo, cv_archivo)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      (nombre, profesion, correo, celular, dpi_numero, contrasena, rol, estado_solicitud, dpi_archivo, diploma_archivo, cv_archivo)
+    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+    RETURNING id
   `;
   const params = [
     payload.nombre,
@@ -27,7 +28,7 @@ exports.createUser = async (payload) => {
 
 exports.findByEmail = async (correo) => {
   const [rows] = await pool.query(
-    'SELECT * FROM usuarios WHERE correo = ?',
+    'SELECT * FROM usuarios WHERE correo = $1',
     [correo]
   );
   return rows[0];

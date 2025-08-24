@@ -1,7 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const path = require('path');
 require('./config/db');
+
 
 // Cargar variables de entorno
 dotenv.config();
@@ -21,6 +23,8 @@ const adminRoutes = require('./routes/adminRoutes');
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Puerto
 const PORT = process.env.PORT || 4000;
